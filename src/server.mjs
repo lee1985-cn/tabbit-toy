@@ -36,15 +36,9 @@ async function ensureSignKey() {
 }
 
 async function getSessionId() {
-  if (sessionCache && Date.now() - sessionCacheAt < SESSION_TTL) return sessionCache;
-  const sessions = await fetchSessionList(config.cookie);
-  if (sessions.length === 0) {
-    throw new Error('账号下无可用会话，请先在 Tabbit 浏览器里创建一个对话');
-  }
-  sessionCache = sessions[0];
-  sessionCacheAt = Date.now();
-  log(`会话缓存: ${sessionCache.slice(0, 8)}… (共 ${sessions.length} 个)`);
-  return sessionCache;
+  // 强行写死真实的 Session ID，绕过官方空列表检测
+  // 请把下面双引号里的内容，替换为你刚刚在 F12 里抓到的真实 chat_session_id
+  return "7aae63da-f58c-4115-8bcd-a3008b3b1305"; 
 }
 
 function invalidateSession() {
